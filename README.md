@@ -35,12 +35,6 @@ A graphical histogram of hourly vehicle frequency is displayed.
 
 Results are saved in a results.txt file.
 
-## Author
-
-Isiri Gangamini Jayaneththi
-Student ID: 20240577
-Date: 09/12/2024
-
 ## Getting Started
 
 Ensure you have Python installed.
