@@ -1,0 +1,178 @@
+BEGIN
+
+    Function validate_date_input()
+        While Ttue Do
+            Prompt user for day, month, year
+            Try
+                Convert day, month, year to integers
+                Read the day
+                If day is not in range 1 to 31 Then
+                    Display error message
+                    Continue
+                Endif
+                Read the month
+                If month is not in range 1 to 12 Then
+                    Display error message
+                    Continue
+                Endif
+                Read the year
+                If year is not in range 2000 to 2024 Then
+                    Display error message
+                    Continue
+                Endif
+                Return the formatted date string (DDMMYYYY)
+            Except ValueError
+                Display 'Integer required!'
+            Endtry
+        Endwhile
+    End Function
+
+    Function process_csv_data(file_path)
+        Initialize counters for vehicles, trucks, electric vehicles, etc.
+        Try
+            Open file by using the file_path
+            Read CSV data using DictReader
+            Check for expected headers
+            If any headers are missing Then
+                Print missing headers
+                Return
+            Endif
+            For each row in CSV Do
+                Try
+                    Extract and clean data from row
+                    Increment total vehicles
+                    If vehicle type is 'truck' Then
+                        Increment total trucks
+                    Endif
+                    If vehicle is electric/hybrid Then
+                        Increment total electric vehicles
+                    Endif
+                    If vehicle type is two-wheeled Then
+                        Increment total two-wheeled vehicles
+                    Endif
+                    If vehicle type is 'bicycle' Then
+                        Increment bike count for the hour
+                    Endif
+                    If vehicle type is 'scooter' And junction is 'Elm Avenue/Rabbit Road' Then
+                        Increment total scooters
+                    Endif
+                    If vehicle speed exceeds speed limit Then
+                        Increment total vehicles over speed limit
+                    Endif
+                    If junction is 'Elm Avenue/Rabbit Road' Then
+                        Increment total vehicles through junction
+                    Endif
+                    If junction is 'Hanley Highway/Westway' Then
+                        Increment total vehicles through junction
+                        Increment peak hour vehicles count
+                    Endif
+                    If vehicle type is 'bus' And conditions match Then
+                        Increment total buses heading north
+                    Endif
+                    If travel directions match Then
+                        Increment total vehicles straight
+                    Endif
+                    If weather conditions indicate rain Then
+                        Add hour to rain hours set
+                    Endif
+                Except ValueError
+                    Continue
+                Endtry
+            End For
+
+            Calculate metrics (percentages, averages, max counts)
+            Format outcomes string with results
+            Print outcomes
+            Call save_results_to_file(outcomes)
+        Except FileNotFoundError
+            Display error message
+        End Try
+    End Function
+
+    Function save_results_to_file(outcomes, file_name="results.txt")
+        Try
+            Open file_name in write mode
+            Write outcomes to file
+        Except Exception as e
+            Display error message
+        End Try
+    End Function
+
+    Class HistogramApp
+        Method __init__(traffic_data, date)
+            Initialize instance variables
+            Create GraphWin for histogram
+
+        Method draw_histogram()
+            Initialize bar dimensions and positions
+            Calculate max_count and scale
+            Draw X-axis
+            Draw title
+
+            For each hour from 0 to 23 Do
+                Calculate group_x_start
+                For each junction in traffic_data Do
+o                    Input count for current hour
+                    Calculate bar_height
+                    Draw bar and label
+                End For
+                Draw hour label
+            End For
+
+            Draw legend
+        End Method
+
+        Method draw_legend(junctions, colors)
+            Initialize legend positions
+            For each junction Do
+                Draw rectangle and legend text
+            End For
+        End Method
+
+        Method run()
+            Call draw_histogram()
+            Wait for mouse click
+            Close window
+        End Method
+    End Class
+
+    Class MultiCSVProcessor
+        Method __init__()
+            Initialize current_data, traffic_data, date_input
+
+        Method load_csv_file()
+            Set date_input by calling validate_date_input()
+            Set file_path based on date_input
+            Set traffic_data by calling process_csv_data(file_path)
+
+        Method clear_previous_data()
+            Clear current_data and traffic_data
+
+        Method handle_user_interaction()
+            While True Do
+                Call clear_previous_data()
+                Call load_csv_file()
+
+                If traffic_data is not empty Then
+                    Create HistogramApp instance
+                    Call run() on app
+
+                Prompt user for continuation
+                If user input is 'n' Then
+                    Display exit message
+                    Break
+                Else If user input is not 'y' Then
+                    Display invalid input message
+                End If
+            End While
+        End Method
+    End Class
+
+    Main Execution
+        Create MultiCSVProcessor instance
+        Call handle_user_interaction() on processor
+END
+
+    
+
+
